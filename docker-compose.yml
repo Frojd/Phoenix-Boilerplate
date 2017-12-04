@@ -1,0 +1,20 @@
+version: '2'
+services:
+    web:
+        image: frojd/phoenix-docker-test
+        build: src
+        volumes:
+            - "./src:/app"
+        ports:
+            - "4000:4000"
+        depends_on:
+            - db
+        environment:
+            - MIX_ENV=dev
+        env_file: ./docker/config/web.env
+    db:
+        image: postgres
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=postgres
