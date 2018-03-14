@@ -6,7 +6,6 @@
 
     ```
     cp docker/config/web.example.env docker/config/web.env
-    cp docker/config/db.example.env docker/config/db.env
     ```
 
 2. Run: docker-compose up
