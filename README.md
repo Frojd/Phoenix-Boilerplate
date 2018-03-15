@@ -23,9 +23,23 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 4. Done. Visit [localhost:4000](http://localhost:4000)
 
 
-# Tests
+## FAQ
 
-- `docker-compose run --rm web test`
+<details>
+
+### How do I remove the scaffolded app?
+
+```
+./scripts/cleanup_scaffold.sh
+```
+
+### How do I run the test suite locally?
+
+```
+docker-compose run --rm web test
+```
+
+</details>
 
 
 ## Contributing
