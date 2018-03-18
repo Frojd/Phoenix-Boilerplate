@@ -1,6 +1,12 @@
 FROM elixir:1.6
 
-ENV SCAFFOLD_APP_NAME=phoenix_app
+ENV SCAFFOLD_APP_NAME=phoenix_app \
+    DATABASE_USER=postgres \
+    DATABASE_PASSWORD=postgres \
+    DATABASE_NAME=postgres \
+    DATABASE_TEST_NAME=postgres_test \
+    DATABASE_HOST=db \
+    DATABASE_PORT=5432
 
 RUN mix local.hex --force \
     && mix local.rebar --force
