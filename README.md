@@ -8,7 +8,7 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 - Elixir 1.6
 - Phoenix 1.3
 - Auto scaffolding (with `phx.new`)
-- Automatic dependency management and db migrations through docker
+- Dependencies and db migrations are automatically run when starting/restarting docker
 
 
 ## Clean install
