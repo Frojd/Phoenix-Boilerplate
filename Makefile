@@ -5,5 +5,8 @@ setup:
 	ln -nfs $PWD/.githooks/bump-version.sh .git/hooks/post-flow-hotfix-start
 	docker-compose up
 
+test:
+	docker-compose run --rm web test
+
 fixcode:
 	docker-compose exec web mix format
