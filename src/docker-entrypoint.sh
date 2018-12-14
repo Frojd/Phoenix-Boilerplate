@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 # $0 is a script name, $1, $2, $3 etc are passed arguments
 # $1 is our command
 # Credits: https://rock-it.pl/how-to-write-excellent-dockerfiles/
@@ -8,12 +10,11 @@ case "$CMD" in
     "server" )
         if [ ! -f ./mix.exs ]; then
             echo "Generating app"
-            mix phx.new $SCAFFOLD_APP_NAME --no-brunch
+            mix phx.new $SCAFFOLD_APP_NAME --no-webpack
 
             echo "Move app to src"
             cp -Rp ./$SCAFFOLD_APP_NAME/. .
             rm -rf ./$SCAFFOLD_APP_NAME
-            touch src/priv/repo/migrations/.gitkeep
 
             echo "Update configuration"
             sed -i -e "s/username:.*/username: System.get_env(\"DATABASE_USER\"),/" config/dev.exs
