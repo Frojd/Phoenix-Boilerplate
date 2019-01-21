@@ -1,4 +1,4 @@
-FROM elixir:1.7
+FROM elixir:1.8
 
 ENV SCAFFOLD_APP_NAME=phoenix_app \
     DATABASE_USER=postgres \
