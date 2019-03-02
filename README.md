@@ -49,7 +49,7 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
     docker-compose up
     ```
 
-3. Visit your site on [http://example.com.test:9999/](example.com.test:9999/)
+3. Visit your site on [http://example.com.test:4000/](example.com.test:4000/)
 
 
 ## Style Guide
