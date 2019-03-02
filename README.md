@@ -11,6 +11,11 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 - Dependencies and db migrations are automatically run when starting/restarting docker
 
 
+## Requirements
+
+- Docker ([Install instructions](#how-do-i-install-docker-on-macoswindows))
+
+
 ## Clean install
 
 1. Copy configuration
@@ -23,6 +28,37 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 3. Run: docker-compose up
 4. Done. Visit [localhost:4000](http://localhost:4000)
 
+
+## Installation (when project is set up)
+
+1. Copy configuration
+
+    ```
+    cp docker/config/web.example.env docker/config/web.env
+    ```
+
+2. Include this ip on your hosts-file
+
+    ```
+    127.0.0.1 example.com.test
+    ```
+
+3. Start project
+
+    ```
+    docker-compose up
+    ```
+
+3. Visit your site on [http://example.com.test:9999/](example.com.test:9999/)
+
+
+## Style Guide
+
+We use the build in elixir formatter:
+
+```
+docker-compose exec web mix format
+```
 
 ## FAQ
 
