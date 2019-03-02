@@ -12,7 +12,8 @@ RUN mix local.hex --force \
     && mix local.rebar --force
 
 RUN apt-get update \
-    && apt-get install -y inotify-tools
+    && apt-get install -y inotify-tools vim netcat \
+    && sudo rm -rf /var/lib/apt/lists/*
 
 RUN mix archive.install --force hex phx_new 1.4.0
 
