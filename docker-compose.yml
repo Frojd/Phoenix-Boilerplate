@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   web:
     image: frojd/phoenix-docker-test
@@ -13,7 +13,7 @@ services:
       - MIX_ENV=dev
     env_file: ./docker/config/web.env
   db:
-    image: postgres
+    image: mdillon/postgis:9.5
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
