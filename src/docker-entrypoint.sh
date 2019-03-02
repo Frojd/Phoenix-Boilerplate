@@ -6,6 +6,12 @@ set -e
 # Credits: https://rock-it.pl/how-to-write-excellent-dockerfiles/
 CMD=$1
 
+# Wait until postgres is ready
+until nc -z $DATABASE_HOST 5432; do
+    echo "$(date) - waiting for postgres..."
+    sleep 3
+done
+
 case "$CMD" in
     "server" )
         if [ ! -f ./mix.exs ]; then
@@ -45,7 +51,7 @@ case "$CMD" in
     "test" )
         echo Running tests
         export MIX_ENV="test"
-        exec mix test
+        exec mix test ${@:1}
         ;;
 
     * )
