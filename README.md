@@ -5,6 +5,7 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 
 ## Features
 
+- Built in compile target support for Ubuntu 18.04
 - Elixir 1.8
 - Phoenix 1.4
 - Auto scaffolding (with `phx.new`)
