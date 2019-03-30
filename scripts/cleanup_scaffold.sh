@@ -12,6 +12,6 @@ rm -rf \
     src/config \
     src/_build
 
-rm -f src/README.md src/mix.exs src/mix.lock
+rm -f src/README.md src/mix.exs src/mix.lock src/.formatter.exs src/.gitignore
 
 cd -
