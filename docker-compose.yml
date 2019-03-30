@@ -1,7 +1,7 @@
 version: '3'
 services:
   web:
-    image: frojd/phoenix-docker-test
+    image: frojd/phoenix-boilerplate_web
     build: src
     volumes:
       - "./src:/app"
