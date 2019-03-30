@@ -15,6 +15,8 @@ done
 case "$CMD" in
     "server" )
         if [ ! -f ./mix.exs ]; then
+            SCAFFOLD_APP_PC_NAME=$(echo $SCAFFOLD_APP_NAME | sed -r 's/(^|_)([a-z])/\U\2/g')
+
             echo "Generating app"
             mix phx.new $SCAFFOLD_APP_NAME --no-webpack
 
@@ -33,6 +35,17 @@ case "$CMD" in
             sed -i -e "s/hostname:.*/hostname: System.get_env(\"DATABASE_HOST\"),/" config/test.exs
             sed -i -e "s/database:.*/database: System.get_env(\"DATABASE_TEST_NAME\"),/" config/test.exs
 
+            echo "Installing distillery"
+            sed -i '/plug_cowboy/c \ \ \ \ \ \ {:plug_cowboy,\ "~> 2.0"},' mix.exs
+            sed -i '/plug_cowboy/a \ \ \ \ \ \ {:distillery,\ "~> 2.0"}' mix.exs
+
+            rm config/prod.exs
+            cp _templates/config/prod.exs config/prod.exs
+            sed -i -e "s/example_app/$SCAFFOLD_APP_NAME/" config/prod.exs
+            sed -i -e "s/ExampleApp/$SCAFFOLD_APP_PC_NAME/" config/prod.exs
+
+            mix deps.get
+            mix release.init
         fi
 
         echo "Update deps"
