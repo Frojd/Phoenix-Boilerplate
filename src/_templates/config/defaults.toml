@@ -1,0 +1,5 @@
+[example_app."ExampleApp.Repo"]
+username = "postgres"
+password = "postgres"
+database = "postgres"
+hostname = "db"

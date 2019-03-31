@@ -1,0 +1,17 @@
+---
+- name: Deploy phoenix application
+  hosts: all
+
+  vars:
+    ansistrano_deploy_from: "/tmp/workspace/"
+    ansistrano_keep_releases: 3
+    ansistrano_deploy_via: rsync
+    ansistrano_after_update_code_after_setup_file: "tasks/after-setup.yml"
+    ansistrano_after_update_code_tasks_file: "tasks/after-update-code.yml"
+    ansistrano_after_symlink_tasks_file: "tasks/after-symlink.yml"
+    ansistrano_deploy_to: /mnt/persist/www/example_app
+    app_name: example_app
+    mix_env: prod
+    ansistrano_allow_anonymous_stats: no
+  roles:
+    - { role: ansistrano.deploy }

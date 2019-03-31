@@ -37,7 +37,8 @@ case "$CMD" in
 
             echo "Installing distillery"
             sed -i '/plug_cowboy/c \ \ \ \ \ \ {:plug_cowboy,\ "~> 2.0"},' mix.exs
-            sed -i '/plug_cowboy/a \ \ \ \ \ \ {:distillery,\ "~> 2.0"}' mix.exs
+            sed -i '/plug_cowboy/a \ \ \ \ \ \ {:distillery,\ "~> 2.0"},' mix.exs
+            sed -i '/distillery/a \ \ \ \ \ \ {:toml,\ "~> 0.3"}' mix.exs
 
             rm config/prod.exs
             cp _templates/config/prod.exs config/prod.exs
@@ -46,6 +47,14 @@ case "$CMD" in
 
             mix deps.get
             mix release.init
+
+            echo "Configure toml"
+            sed -i '/environment\ :prod/a \ \ set config_providers: [ {Toml.Provider, [path: "${RELEASE_ROOT_DIR}/config.toml"]} ]' rel/config.exs
+            sed -i '/environment\ :prod/a \ \ set overlays: [ {:copy, "config/defaults.toml", "config.toml"} ]' rel/config.exs
+
+            cp _templates/config/defaults.toml config/defaults.toml
+            sed -i -e "s/example_app/$SCAFFOLD_APP_NAME/" config/defaults.toml
+            sed -i -e "s/ExampleApp/$SCAFFOLD_APP_PC_NAME/" config/defaults.toml
         fi
 
         echo "Update deps"

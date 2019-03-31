@@ -53,6 +53,29 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 3. Visit your site on [http://example.com.test:4000/](example.com.test:4000/)
 
 
+## Deployment
+
+### Deploying manually
+
+#### Requirements
+
+- Python 3.6 and pip
+- Virtualenv
+- Mac OS or Linux ([Windows does not currently work](http://docs.ansible.com/ansible/latest/intro_windows.html#windows-how-does-it-work))
+
+#### How to
+
+1. Open deployment folder: `cd deploy`
+2. Setup and activate virtualenv: `virtualenv venv && venv/bin/activate`
+3. Install ansible: `pip install -r requirements.txt`
+4. Install ansistrano: `ansible-galaxy install -r requirements.yml`
+
+#### Deploy application
+
+- Stage: `ansible-playbook deploy.yml -i stages/stage`
+- Prod: `ansible-playbook deploy.yml -i stages/prod`
+
+
 ## Style Guide
 
 We use the build in elixir formatter:

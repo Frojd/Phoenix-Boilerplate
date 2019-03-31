@@ -10,3 +10,6 @@ test:
 
 fixcode:
 	docker-compose exec web mix format
+
+compile:
+	docker-compose exec web bash -c "MIX_ENV=prod mix release --env=prod"
