@@ -48,6 +48,16 @@ case "$CMD" in
             mix deps.get
             mix release.init
 
+            echo "Copy commands"
+            mkdir -p rel/commands
+            cp _templates/rel/commands/migrate.sh rel/commands/migrate.sh
+            sed -i -e "s/ExampleApp/$SCAFFOLD_APP_PC_NAME/" rel/commands/migrate.sh
+
+            echo "Add commands to rel/config.exs"
+            echo "$(cat _templates/rel/config.part.exs)" >> rel/config.exs
+            sed -i -e "s/example_app/$SCAFFOLD_APP_NAME/" rel/config.exs
+            sed -i -e "s/ExampleApp/$SCAFFOLD_APP_PC_NAME/" rel/config.exs
+
             echo "Configure toml"
             sed -i '/environment\ :prod/a \ \ set config_providers: [ {Toml.Provider, [path: "${RELEASE_ROOT_DIR}/config.toml"]} ]' rel/config.exs
             sed -i '/environment\ :prod/a \ \ set overlays: [ {:copy, "config/defaults.toml", "config.toml"} ]' rel/config.exs
@@ -55,6 +65,7 @@ case "$CMD" in
             cp _templates/config/defaults.toml config/defaults.toml
             sed -i -e "s/example_app/$SCAFFOLD_APP_NAME/" config/defaults.toml
             sed -i -e "s/ExampleApp/$SCAFFOLD_APP_PC_NAME/" config/defaults.toml
+
         fi
 
         echo "Update deps"
