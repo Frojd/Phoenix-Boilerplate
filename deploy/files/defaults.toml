@@ -1,0 +1,11 @@
+[example_app."ExampleApp.Repo"]
+username = "postgres"
+password = "postgres"
+database = "postgres"
+hostname = "db"
+
+[example_app."ExampleAppWeb.Endpoint".http]
+port = "8000"
+
+[example_app."ExampleAppWeb.Endpoint".url]
+port = "8000"

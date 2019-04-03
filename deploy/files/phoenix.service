@@ -1,0 +1,14 @@
+[Unit]
+Description=Phoenix
+After=network.target
+
+[Service]
+WorkingDirectory=/mnt/persist/www/example_app/current/compiled_app/bin
+ExecStart=/mnt/persist/www/example_app/current/compiled_app/bin/example_app start
+ExecStop=/mnt/persist/www/example_app/current/compiled_app/bin/example_app stop
+User=root
+RemainAfterExit=yes
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
