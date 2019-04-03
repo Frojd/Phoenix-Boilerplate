@@ -5,7 +5,8 @@
 docker/config/db.env
 docker/config/web.env
 docker/config/db_backup.env
-docker/files/dump-dumps/*
+docker/files/db-dumps/*
+!docker/files/db-dumps/.gitkeep
 docker/files/var/log/*
 docker/files/certs/*
 !docker/files/certs/.gitkeep
