@@ -10,3 +10,5 @@ docker/files/var/log/*
 docker/files/certs/*
 !docker/files/certs/.gitkeep
 .docker-sync
+
+/tmp
