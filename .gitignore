@@ -7,4 +7,6 @@ docker/config/web.env
 docker/config/db_backup.env
 docker/files/dump-dumps/*
 docker/files/var/log/*
+docker/files/certs/*
+!docker/files/certs/.gitkeep
 .docker-sync

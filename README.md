@@ -15,6 +15,7 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 ## Requirements
 
 - Docker ([Install instructions](#how-do-i-install-docker-on-macoswindows))
+- [mkcert](https://github.com/FiloSottile/mkcert) for SSL
 
 
 ## Clean install
@@ -44,13 +45,20 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
     127.0.0.1 example.com.test
     ```
 
-3. Start project
+3. Add root cert: `mkcert -install` (if not already available)
+
+4. generate ssl cert: 
+    ```
+    mkcert --cert-file docker/files/certs/cert.pem --key-file docker/files/certs/cert-key.pem example.com.test
+    ```
+
+5. Start project
 
     ```
     docker-compose up
     ```
 
-3. Visit your site on [http://example.com.test:4000/](example.com.test:4000/)
+6. Visit your site on [http://example.com.test:4000/](example.com.test:4000/)
 
 
 ## Deployment
