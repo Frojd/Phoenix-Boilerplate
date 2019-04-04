@@ -9,3 +9,9 @@ port = "8000"
 
 [example_app."ExampleAppWeb.Endpoint".url]
 port = "8000"
+
+[sentry]
+dsn = "https://XXX:XXX@sentry.io/XXX"
+environment_name = "stage"
+included_environments = ["prod", "stage"]
+#in_app_module_whitelist = Elixir.ExampleApp
