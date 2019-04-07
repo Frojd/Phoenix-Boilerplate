@@ -5,6 +5,7 @@ services:
     build: src
     volumes:
       - "./src:/app"
+      - "./docker/files/certs:/priv/cert"
     ports:
       - "4000:4000"
     depends_on:

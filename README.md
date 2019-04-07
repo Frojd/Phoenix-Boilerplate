@@ -47,7 +47,7 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 
 3. Add root cert: `mkcert -install` (if not already available)
 
-4. generate ssl cert: 
+4. Generate ssl cert: 
     ```
     mkcert --cert-file docker/files/certs/cert.pem --key-file docker/files/certs/cert-key.pem example.com.test
     ```
@@ -58,7 +58,7 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
     docker-compose up
     ```
 
-6. Visit your site on [http://example.com.test:4000/](example.com.test:4000/)
+6. Visit your site on [https://example.com.test:4000/](example.com.test:4000/)
 
 
 ## Deployment
