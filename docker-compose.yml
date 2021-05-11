@@ -14,7 +14,7 @@ services:
       - MIX_ENV=dev
     env_file: ./docker/config/web.env
   db:
-    image: mdillon/postgis:9.5
+    image: postgis/postgis:12-2.5-alpine
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
