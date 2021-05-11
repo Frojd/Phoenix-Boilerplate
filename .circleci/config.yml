@@ -1,0 +1,158 @@
+version: 2
+
+defaults: &defaults
+  working_directory: /home/circleci/repo
+
+filter_ignore_master: &filter_ignore_master
+  filters:
+    branches:
+      ignore:
+        - master
+        - /^release.*/
+    tags:
+      only:
+        - /^v.*/
+
+filter_only_develop_or_tag: &filter_only_develop_or_tag
+  filters:
+    branches:
+      only:
+        - develop
+    tags:
+      only:
+        - /^v.*/
+
+references:
+  workspace_root: &workspace_root
+    /tmp/workspace
+
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+
+  restore_repo: &restore_repo
+    restore_cache:
+      keys:
+        - v2-repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+
+jobs:
+  checkout_code:
+    <<: *defaults
+    docker:
+      - image: frojd/elixir-ubuntu-20-04:1.11
+      - image: postgis/postgis:12-2.5-alpine
+      - image: circleci/python:3.8
+    steps:
+      - checkout
+      - save_cache:
+          key: v2-repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - .
+  phoenix:
+    <<: *defaults
+    docker:
+      - image: frojd/elixir-ubuntu-20-04:1.11
+        environment:
+          DATABASE_USER: postgres
+          DATABASE_PASSWORD: postgres
+          DATABASE_NAME: postgres
+          DATABASE_TEST_NAME: postgres_test
+          DATABASE_HOST: localhost
+          REDIS_HOST: localhost
+      - image: postgis/postgis:12-2.5-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+
+    steps:
+      - *attach_workspace
+      - *restore_repo
+      - run:
+          name: Install app
+          command: |
+            cd src
+            mix local.hex --force
+            mix local.rebar
+            mix deps.get
+            mix ecto.create
+      - run:
+          name: Test linting
+          command: |
+            cd src
+            mix format --check-formatted --dry-run
+      - run:
+          name: Test app
+          command: |
+            cd src
+            mix test
+      - run:
+          name: Compile app
+          command: |
+            cd src
+            MIX_ENV=prod mix release --env=prod
+      - run:
+          name: Move phoenix binary to workspace
+          command: |
+            mkdir -p /tmp/workspace/src
+            cp -R src/_build /tmp/workspace/src/_build/
+      - save_cache:
+          key: v2-phoenix-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - src
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - src/_build
+
+  deploy:
+    <<: *defaults
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - *attach_workspace
+      - *restore_repo
+      - restore_cache:
+          keys:
+            - v2-phoenix-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+            - v2-deploy-{{ checksum "deploy/requirements.txt" }}
+      - run:
+          command: |
+            cd deploy
+            python3 -m venv venv
+            sudo apt-get -y -qq install rsync
+            . venv/bin/activate
+            pip install -r requirements.txt
+            ansible-galaxy install -r requirements.yml
+      - save_cache:
+          key: v2-deploy-{{ checksum "deploy/requirements.txt" }}
+          paths:
+            - deploy/venv
+            - deploy/roles.galaxy
+      - run:
+          command: |
+            cd deploy
+            . venv/bin/activate
+
+            if [ "${CIRCLE_BRANCH}" == "develop" ]; then
+              ansible-playbook deploy.yml -i stages/stage
+            fi
+
+            if [ "${CIRCLE_TAG}" ]; then
+              ansible-playbook deploy.yml -i stages/prod
+            fi
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - checkout_code:
+          <<: *filter_ignore_master
+      - phoenix:
+          <<: *filter_ignore_master
+          requires:
+            - checkout_code
+      - deploy:
+          <<: *filter_only_develop_or_tag
+          requires:
+            - phoenix

@@ -1,0 +1,77 @@
+
+
+---
+- name: Installs phoenix application on server (secret gen, db setup, nginx and phoenix service)
+  hosts: all
+
+  vars:
+    ansistrano_deploy_from: "{{ playbook_dir }}/../src"
+
+  tasks:
+    - name: Generates secrets/passwords
+      set_fact:
+        database_password: "{{ lookup('password', '/dev/null chars=ascii_letters length=40') }}"
+
+    - name: Makes sure python psql lib is available
+      pip:
+        name: psycopg2-binary
+
+    - name: Creates directory for shared files
+      file:
+        path: "{{ ansistrano_deploy_to }}/shared"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: 0775
+        recurse: yes
+
+    - name: Creates application configuration
+      copy:
+        src: "files/config.toml"
+        dest: "{{ ansistrano_deploy_to }}/shared/config.toml"
+        owner: www-data
+        group: www-data
+        mode: 0644
+
+    - replace:
+        path: "{{ ansistrano_deploy_to }}/shared/config.toml"
+        regexp: 'password =(.*)$'
+        replace: 'password = "{{ database_password }}"'
+
+    - name: Creates postgres database
+      postgresql_db:
+        name: "{{ database_name }}"
+
+    - name: Creates postgres user
+      postgresql_user:
+        db: "{{ database_name }}"
+        name: "{{ database_user }}"
+        password: "{{ database_password }}"
+        priv: ALL
+
+    - name: Copy phoenix service
+      copy:
+        src: "files/phoenix.service"
+        dest: "/etc/systemd/system/phoenix.service"
+        mode: 0644
+
+    - name: Reload services
+      command: systemctl daemon-reload
+
+    - name: Copies nginx config
+      copy:
+        src: "files/nginx.conf"
+        dest: "/mnt/persist/nginx/conf.d/{{ project_slug }}.conf"
+        mode: 0644
+
+    - name: Copies robots.txt
+      copy:
+        src: "files/robots.txt"
+        dest: "{{ ansistrano_deploy_to }}/shared/robots.txt"
+        owner: www-data
+        group: www-data
+        mode: 0644
+
+- name: Runs deploy playbook
+  import_playbook: deploy.yml
+

@@ -1,0 +1,5 @@
+---
+ansistrano_deploy_to: /mnt/persist/www/example_app
+database_name: example_app_db
+database_user: example_app
+project_slug: example_app

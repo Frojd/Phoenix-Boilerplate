@@ -1,0 +1,6 @@
+roles.galaxy
+.vagrant
+*.retry
+
+# Virtualenv
+venv

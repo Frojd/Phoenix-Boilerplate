@@ -1,0 +1,5 @@
+- name: Create phoenix config file
+  file:
+    path: "{{ ansistrano_shared_path }}/config.toml"
+    state: touch
+    mode: 0755

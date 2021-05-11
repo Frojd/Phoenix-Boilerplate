@@ -1,0 +1,3 @@
+[webservers]
+prod1 ansible_user=root ansible_port=22 ansible_host=prod.domain.com stage_name=prod
+

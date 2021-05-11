@@ -1,0 +1,31 @@
+- name: Stop phoenix app
+  service:
+    name: phoenix
+    state: stopped
+
+- name: Capture phoenix app version
+  command: "cut -d' ' -f2 {{ ansistrano_release_path.stdout }}/src/_build/{{ mix_env }}/rel/{{ app_name }}/releases/start_erl.data"
+  register: rel_vsn
+
+- name: Create compiled app dir
+  file:
+    path: "{{ ansistrano_release_path.stdout }}/compiled_app/"
+    state: directory
+
+- name: Copy current release
+  unarchive:
+    src: "{{ ansistrano_release_path.stdout }}/src/_build/{{ mix_env }}/rel/{{ app_name }}/releases/{{ rel_vsn.stdout }}/{{ app_name }}.tar.gz"
+    dest: "{{ ansistrano_release_path.stdout }}/compiled_app/"
+    remote_src: yes
+
+- name: Symlink phoenix app config
+  file:
+    src: "{{ ansistrano_shared_path }}/config.toml"
+    dest: "{{ ansistrano_release_path.stdout }}/compiled_app/config.toml"
+    state: link
+    force: yes
+
+- name: Run migrations
+  command: "./{{ app_name }} migrate"
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}/compiled_app/bin"

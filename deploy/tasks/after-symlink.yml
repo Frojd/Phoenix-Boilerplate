@@ -1,0 +1,9 @@
+- name: Restart phoenix
+  service:
+    name: phoenix
+    state: started
+
+- name: Restart Nginx
+  service:
+    name: nginx
+    state: restarted
