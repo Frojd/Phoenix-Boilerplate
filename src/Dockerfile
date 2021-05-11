@@ -1,4 +1,4 @@
-FROM frojd/elixir-ubuntu-18-04:1.8
+FROM frojd/elixir-ubuntu-20-04:1.11
 
 ENV SCAFFOLD_APP_NAME=phoenix_app \
     DATABASE_USER=postgres \
