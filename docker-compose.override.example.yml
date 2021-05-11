@@ -1,0 +1,10 @@
+version: '3'
+services:
+  web:
+    links: []
+    environment:
+      - ELIXIR_HOST=http://host.docker.internal
+  elixir:
+    build:
+      context: ./src
+      dockerfile: Dockerfile_noop

@@ -5,9 +5,9 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 
 ## Features
 
-- Built in compile target support for Ubuntu 18.04
-- Elixir 1.8
-- Phoenix 1.4
+- Built in compile target support for Ubuntu 20.04
+- Elixir 1.11
+- Phoenix 1.5
 - Auto scaffolding (with `phx.new`)
 - Dependencies and db migrations are automatically run when starting/restarting docker
 
@@ -23,20 +23,22 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 1. Copy configuration
 
     ```
-    cp docker/config/web.example.env docker/config/web.env
+    cp docker/config/elixir.example.env docker/config/elixir.env
     ```
 
-2. Open `docker/config/web.env` and change `SCAFFOLD_APP_NAME=` to the otp name you want for your app
+2. Open `docker/config/elixir.env` and change `SCAFFOLD_APP_NAME=` to the otp name you want for your app
 3. Run: docker-compose up
-4. Done. Visit [localhost:4000](http://localhost:4000)
+4. Done. Visit [localhost:8000](http://localhost:8000)
 
 
 ## Installation (when project is set up)
 
+### Running in docker
+
 1. Copy configuration
 
     ```
-    cp docker/config/web.example.env docker/config/web.env
+    cp docker/config/elixir.example.env docker/config/elixir.env
     ```
 
 2. Include this ip on your hosts-file
@@ -58,7 +60,52 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
     docker-compose up
     ```
 
-6. Visit your site on [https://example.com.test:4000/](example.com.test:4000/)
+6. Visit your site on [https://example.com.test:8000/](example.com.test:8000/)
+
+
+### Running elixir/otp locally
+
+1. Copy configuration
+
+    ```
+    cp docker/config/elixir.example.env docker/config/elixir.env
+    ```
+
+2. Include this ip on your hosts-file
+
+    ```
+    127.0.0.1 example.com.test
+    ```
+
+3. Add root cert: `mkcert -install` (if not already available)
+
+4. Generate ssl cert:
+    ```
+    mkcert --cert-file docker/files/certs/cert.pem --key-file docker/files/certs/cert-key.pem example.com.test
+    ```
+
+5. Disable elixir docker image
+
+    ```
+    cp docker-compose.override.example.yml docker-compose.override.example.yml
+    ```
+
+6. Start project
+
+    ```
+    docker-compose up -d
+    ```
+
+7. Start phoenix
+    ```
+    cd src
+    asdf install
+    source env.local.sh
+    mix deps.get
+    mix phx.server
+    ```
+
+8. Visit your site on [https://example.com.test:8000/](example.com.test:8000/)
 
 
 ## Deployment
@@ -67,7 +114,7 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 
 #### Requirements
 
-- Python 3.6 and pip
+- Python 3.8 and pip
 - Virtualenv
 - Mac OS or Linux ([Windows does not currently work](http://docs.ansible.com/ansible/latest/intro_windows.html#windows-how-does-it-work))
 

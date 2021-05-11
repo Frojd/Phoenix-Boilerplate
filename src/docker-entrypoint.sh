@@ -27,13 +27,15 @@ case "$CMD" in
             echo "Update configuration"
             sed -i -e "s/username:.*/username: System.get_env(\"DATABASE_USER\"),/" config/dev.exs
             sed -i -e "s/password:.*/password: System.get_env(\"DATABASE_PASSWORD\"),/" config/dev.exs
-            sed -i -e "s/hostname:.*/hostname: System.get_env(\"DATABASE_HOST\"),/" config/dev.exs
             sed -i -e "s/database:.*/database: System.get_env(\"DATABASE_NAME\"),/" config/dev.exs
+            sed -i -e "s/hostname:.*/hostname: System.get_env(\"DATABASE_HOST\"),/" config/dev.exs
+            sed -i '/hostname:.*/a\ \ port: System.get_env("DATABASE_PORT") |> String.to_integer,' config/dev.exs
 
             sed -i -e "s/username:.*/username: System.get_env(\"DATABASE_USER\"),/" config/test.exs
             sed -i -e "s/password:.*/password: System.get_env(\"DATABASE_PASSWORD\"),/" config/test.exs
-            sed -i -e "s/hostname:.*/hostname: System.get_env(\"DATABASE_HOST\"),/" config/test.exs
             sed -i -e "s/database:.*/database: System.get_env(\"DATABASE_TEST_NAME\"),/" config/test.exs
+            sed -i -e "s/hostname:.*/hostname: System.get_env(\"DATABASE_HOST\"),/" config/test.exs
+            sed -i '/hostname:.*/a\ \ port: System.get_env("DATABASE_PORT") |> String.to_integer,' config/test.exs
 
             echo "Installing distillery"
             sed -i '/plug_cowboy/c \ \ \ \ \ \ {:plug_cowboy,\ "~> 2.0"},' mix.exs
@@ -65,7 +67,6 @@ case "$CMD" in
             cp _templates/config/defaults.toml config/defaults.toml
             sed -i -e "s/example_app/$SCAFFOLD_APP_NAME/" config/defaults.toml
             sed -i -e "s/ExampleApp/$SCAFFOLD_APP_PC_NAME/" config/defaults.toml
-
         fi
 
         echo "Update deps"

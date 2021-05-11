@@ -1,20 +1,32 @@
 version: '3'
 services:
   web:
-    image: frojd/phoenix-boilerplate_web
+    image: nginx:alpine
+    links:
+      - elixir
+    ports:
+      - "8000:80"
+      - "8001:443"
+    volumes:
+      - "./docker/files/nginx.conf.template:/etc/nginx/templates/default.conf.template:cached"
+      - "./docker/files/shared:/shared:rw"
+    environment:
+      - ELIXIR_HOST=http://elixir
+  elixir:
+    image: frojd/phoenix-boilerplate_elixir
     build: src
     volumes:
       - "./src:/app"
       - "./docker/files/certs:/priv/cert"
-    ports:
-      - "4000:4000"
     depends_on:
       - db
     environment:
       - MIX_ENV=dev
-    env_file: ./docker/config/web.env
+    env_file: ./docker/config/elixir.env
   db:
     image: postgis/postgis:12-2.5-alpine
+    ports:
+      - "8002:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
