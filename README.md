@@ -136,7 +136,7 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 We use the build in elixir formatter:
 
 ```
-docker-compose exec web mix format
+docker-compose exec elixir mix format
 ```
 
 ## FAQ
@@ -152,7 +152,7 @@ docker-compose exec web mix format
 ### How do I run the test suite locally?
 
 ```
-docker-compose run --rm web test
+docker-compose run --rm elixir test
 ```
 
 </details>
