@@ -2,6 +2,7 @@
 
 ## X.X.X (XXXX.XX.XX)
 
+- New: Add CI for testing boilerplate (Martin Sandström)
 - Fix: Move SSL handling to Nginx (Martin Sandström)
 
 
