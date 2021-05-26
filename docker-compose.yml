@@ -10,6 +10,7 @@ services:
     volumes:
       - "./docker/files/nginx.conf.template:/etc/nginx/templates/default.conf.template:cached"
       - "./docker/files/shared:/shared:rw"
+      - "./docker/files/certs:/etc/nginx/certs"
     environment:
       - ELIXIR_HOST=http://elixir
   elixir:
@@ -17,7 +18,6 @@ services:
     build: src
     volumes:
       - "./src:/app"
-      - "./docker/files/certs:/priv/cert"
     depends_on:
       - db
     environment:

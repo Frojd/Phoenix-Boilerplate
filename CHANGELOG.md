@@ -1,5 +1,10 @@
 # Changelog
 
+## X.X.X (XXXX.XX.XX)
+
+- Fix: Move SSL handling to Nginx (Martin Sandström)
+
+
 ## 2.0.0 (2021.05.11)
 
 - New: Use Nginx as a server proxy (Martin Sandström)

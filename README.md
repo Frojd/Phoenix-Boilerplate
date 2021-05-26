@@ -49,18 +49,24 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 
 3. Add root cert: `mkcert -install` (if not already available)
 
-4. Generate ssl cert: 
+4. Generate ssl cert:
     ```
     mkcert --cert-file docker/files/certs/cert.pem --key-file docker/files/certs/cert-key.pem example.com.test
     ```
 
-5. Start project
+5. Enable SSL in Nginx
+    ```
+    sed -i.bak 's/\#mkcert\ //g' docker/files/config/nginx.conf.template
+    rm -f docker/files/config/nginx.conf.template.bak
+    ```
+
+6. Start project
 
     ```
     docker-compose up
     ```
 
-6. Visit your site on [https://example.com.test:8000/](example.com.test:8000/)
+7. Visit your site on [https://example.com.test:8001/](example.com.test:8001/)
 
 
 ### Running elixir/otp locally
@@ -84,19 +90,25 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
     mkcert --cert-file docker/files/certs/cert.pem --key-file docker/files/certs/cert-key.pem example.com.test
     ```
 
-5. Disable elixir docker image
+5. Enable SSL in Nginx
+    ```
+    sed -i.bak 's/\#mkcert\ //g' docker/files/config/nginx.conf.template
+    rm -f docker/files/config/nginx.conf.template.bak
+    ```
+
+6. Disable elixir docker image
 
     ```
     cp docker-compose.override.example.yml docker-compose.override.example.yml
     ```
 
-6. Start project
+7. Start project
 
     ```
     docker-compose up -d
     ```
 
-7. Start phoenix
+8. Start phoenix
     ```
     cd src
     asdf install
@@ -105,7 +117,7 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
     mix phx.server
     ```
 
-8. Visit your site on [https://example.com.test:8000/](example.com.test:8000/)
+9. Visit your site on [https://example.com.test:8001/](example.com.test:8001/)
 
 
 ## Deployment
