@@ -6,13 +6,13 @@ setup:
 	docker-compose up
 
 test:
-	docker-compose run --rm web test
+	docker-compose run --rm elixir test
 
 fixcode:
-	docker-compose exec web mix format
+	docker-compose exec elixir mix format
 
 compile:
-	docker-compose exec web bash -c "MIX_ENV=prod mix release --env=prod"
+	docker-compose exec elixir bash -c "MIX_ENV=prod mix release --env=prod"
 
 cleanup_scaffold:
 	rm -rf src/test src/rel src/priv src/lib src/config src/deps src/_build
