@@ -16,7 +16,7 @@ scaffold_project() {
     SCAFFOLD_APP_PC_NAME=$(echo $SCAFFOLD_APP_NAME | sed -r 's/(^|_)([a-z])/\U\2/g')
 
     echo "Generating app"
-    mix phx.new $SCAFFOLD_APP_NAME --no-webpack
+    mix phx.new $SCAFFOLD_APP_NAME --no-assets
 
     echo "Move app to src"
     cp -Rp ./$SCAFFOLD_APP_NAME/. .
