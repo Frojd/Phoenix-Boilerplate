@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.1.0 (2022.01.06)
 
 - Fix: Upgrade Phoenix to 1.6.6
 - Fix: Upgrade Elixir to 1.13
