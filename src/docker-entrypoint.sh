@@ -28,6 +28,7 @@ scaffold_project() {
     sed -i -e "s/database:.*/database: System.get_env(\"DATABASE_NAME\"),/" config/dev.exs
     sed -i -e "s/hostname:.*/hostname: System.get_env(\"DATABASE_HOST\"),/" config/dev.exs
     sed -i '/hostname:.*/a\ \ port: System.get_env("DATABASE_PORT") |> String.to_integer,' config/dev.exs
+    sed -i -e "s/ip:.{127, 0, 0, 1}/ip: {0, 0, 0, 0}/" config/dev.exs
 
     sed -i -e "s/username:.*/username: System.get_env(\"DATABASE_USER\"),/" config/test.exs
     sed -i -e "s/password:.*/password: System.get_env(\"DATABASE_PASSWORD\"),/" config/test.exs
