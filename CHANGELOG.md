@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Fix: Upgrade Phoenix to 1.6.6
+- Fix: Upgrade Elixir to 1.13
+- Fix: Use official elixir docker image for development
+- Fix: Use IP 0.0.0.0 for local phoenix server
+
 
 ## 2.0.1 (2021.05.26)
 
