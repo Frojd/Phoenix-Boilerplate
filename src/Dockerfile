@@ -1,4 +1,4 @@
-FROM frojd/elixir-ubuntu-20-04:1.11
+FROM elixir:1.13
 
 ENV SCAFFOLD_APP_NAME=phoenix_app \
     DATABASE_USER=postgres \
@@ -13,7 +13,7 @@ RUN mix local.hex --force \
 
 RUN apt-get update \
     && apt-get install -y inotify-tools vim netcat \
-    && sudo rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mix archive.install --force hex phx_new 1.5.9
 
