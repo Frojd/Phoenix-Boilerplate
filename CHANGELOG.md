@@ -1,6 +1,9 @@
 # Changelog
 
-## X.X.X (XXXX.XX.XX)
+## Unreleased
+
+
+## 2.0.1 (2021.05.26)
 
 - New: Add CI for testing boilerplate (Martin Sandström)
 - Fix: Move SSL handling to Nginx (Martin Sandström)
