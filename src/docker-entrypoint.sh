@@ -16,7 +16,7 @@ scaffold_project() {
     SCAFFOLD_APP_PC_NAME=$(echo $SCAFFOLD_APP_NAME | sed -r 's/(^|_)([a-z])/\U\2/g')
 
     echo "Generating app"
-    mix phx.new $SCAFFOLD_APP_NAME --no-webpack
+    mix phx.new $SCAFFOLD_APP_NAME --no-assets
 
     echo "Move app to src"
     cp -Rp ./$SCAFFOLD_APP_NAME/. .
@@ -28,6 +28,7 @@ scaffold_project() {
     sed -i -e "s/database:.*/database: System.get_env(\"DATABASE_NAME\"),/" config/dev.exs
     sed -i -e "s/hostname:.*/hostname: System.get_env(\"DATABASE_HOST\"),/" config/dev.exs
     sed -i '/hostname:.*/a\ \ port: System.get_env("DATABASE_PORT") |> String.to_integer,' config/dev.exs
+    sed -i -e "s/ip:.{127, 0, 0, 1}/ip: {0, 0, 0, 0}/" config/dev.exs
 
     sed -i -e "s/username:.*/username: System.get_env(\"DATABASE_USER\"),/" config/test.exs
     sed -i -e "s/password:.*/password: System.get_env(\"DATABASE_PASSWORD\"),/" config/test.exs

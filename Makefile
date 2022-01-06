@@ -15,7 +15,7 @@ compile:
 	docker-compose exec elixir bash -c "MIX_ENV=prod mix release --env=prod"
 
 cleanup_scaffold:
-	rm -rf src/test src/rel src/priv src/lib src/config src/deps src/_build
+	rm -rf src/test src/rel src/priv src/lib src/config src/deps src/_build src/assets
 	rm -f src/mix.*
 	rm -f src/README.md
 	rm -f src/.formatter.exs

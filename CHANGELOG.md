@@ -1,6 +1,14 @@
 # Changelog
 
-## X.X.X (XXXX.XX.XX)
+## 2.1.0 (2022.01.06)
+
+- Fix: Upgrade Phoenix to 1.6.6
+- Fix: Upgrade Elixir to 1.13
+- Fix: Use official elixir docker image for development
+- Fix: Use IP 0.0.0.0 for local phoenix server
+
+
+## 2.0.1 (2021.05.26)
 
 - New: Add CI for testing boilerplate (Martin Sandström)
 - Fix: Move SSL handling to Nginx (Martin Sandström)
