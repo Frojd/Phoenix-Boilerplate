@@ -72,21 +72,6 @@ jobs:
   phoenix:
     <<: *defaults
     executor: elixir_with_postgres
-    docker:
-      - image: frojd/elixir-ubuntu-20-04:1.13
-        environment:
-          DATABASE_USER: postgres
-          DATABASE_PASSWORD: postgres
-          DATABASE_NAME: postgres
-          DATABASE_TEST_NAME: postgres_test
-          DATABASE_HOST: localhost
-          REDIS_HOST: localhost
-      - image: postgis/postgis:12-2.5-alpine
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-
     steps:
       - *attach_workspace
       - *restore_repo
