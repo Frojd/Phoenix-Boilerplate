@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade Ubuntu to 22.04
 - Add Circle CI executors
 - Bump actions/checkout to v4
+- Upgrade Phoenix to 1.7
 
 ### Removed
 

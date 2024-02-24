@@ -15,7 +15,7 @@ RUN apt-get update \
     && apt-get install -y inotify-tools vim netcat \
     && rm -rf /var/lib/apt/lists/*
 
-RUN mix archive.install --force hex phx_new 1.6.6
+RUN mix archive.install --force hex phx_new 1.7.11
 
 WORKDIR /app
 ADD . /app
