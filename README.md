@@ -5,8 +5,8 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 
 ## Features
 
-- Built in compile target support for Ubuntu 20.04
-- Elixir 1.13
+- Built in compile target support for Ubuntu 22.04
+- Elixir 1.16
 - Phoenix 1.6
 - Auto scaffolding (with `phx.new`)
 - Dependencies and db migrations are automatically run when starting/restarting docker

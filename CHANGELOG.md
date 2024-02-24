@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 ### Changed
 ### Fixed
+- Upgrade Elixir to 1.16
+- Upgrade Ubuntu to 22.04
+- Add Circle CI executors
+
+### Removed
 
 ## [2.1.0] - 2022-01-06
 

@@ -1,4 +1,4 @@
-FROM elixir:1.13
+FROM ghcr.io/frojd/dockerimages/elixir-ubuntu-22-04:1.16
 
 ENV SCAFFOLD_APP_NAME=phoenix_app \
     DATABASE_USER=postgres \
