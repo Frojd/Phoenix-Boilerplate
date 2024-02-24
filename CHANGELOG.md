@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 ### Changed
+- Rename .tool-versions to local.tool-versions to indicate it is only used locally
+
 ### Fixed
 - Upgrade Elixir to 1.16
 - Upgrade Ubuntu to 22.04
