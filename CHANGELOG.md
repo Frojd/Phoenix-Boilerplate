@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 ### Changed
+### Fixed
+### Removed
+
+## [2.2.0] - 2024-02-25
+
+### Changed
 - Rename .tool-versions to local.tool-versions to indicate it is only used locally
 - Replace distillery with mix release
 
@@ -19,8 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump actions/checkout to v4
 - Upgrade Phoenix to 1.7
 - Use YAML formatted ansible host config
-
-### Removed
 
 ## [2.1.0] - 2022-01-06
 
