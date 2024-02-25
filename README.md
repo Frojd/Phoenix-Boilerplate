@@ -7,7 +7,8 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 
 - Built in compile target support for Ubuntu 22.04
 - Elixir 1.16
-- Phoenix 1.6
+- Phoenix 1.7
+- OTP 25
 - Auto scaffolding (with `phx.new`)
 - Dependencies and db migrations are automatically run when starting/restarting docker
 
@@ -111,6 +112,7 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 8. Start phoenix
     ```
     cd src
+    mv local.tool-versions .tool-versions
     asdf install
     source env.local.sh
     mix deps.get
