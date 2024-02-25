@@ -14,18 +14,18 @@
 
 - name: Copy current release
   unarchive:
-    src: "{{ ansistrano_release_path.stdout }}/src/_build/{{ mix_env }}/rel/{{ app_name }}/releases/{{ rel_vsn.stdout }}/{{ app_name }}.tar.gz"
+    src: "{{ ansistrano_release_path.stdout }}/src/_build/{{ mix_env }}/{{ app_name }}-{{ rel_vsn.stdout }}.tar.gz"
     dest: "{{ ansistrano_release_path.stdout }}/compiled_app/"
     remote_src: yes
 
 - name: Symlink phoenix app config
   file:
     src: "{{ ansistrano_shared_path }}/config.toml"
-    dest: "{{ ansistrano_release_path.stdout }}/compiled_app/config.toml"
+    dest: "{{ ansistrano_release_path.stdout }}/compiled_app/bin/config.toml"
     state: link
     force: yes
 
 - name: Run migrations
-  command: "./{{ app_name }} migrate"
+  command: "./{{ app_name }} eval '{{ phoenix_app_name }}.Release.migrate'"
   args:
     chdir: "{{ ansistrano_release_path.stdout }}/compiled_app/bin"
