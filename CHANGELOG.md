@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Circle CI executors
 - Bump actions/checkout to v4
 - Upgrade Phoenix to 1.7
+- Use YAML formatted ansible host config
 
 ### Removed
 

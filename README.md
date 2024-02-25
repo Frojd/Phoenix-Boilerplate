@@ -141,8 +141,8 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 
 #### Deploy application
 
-- Stage: `ansible-playbook deploy.yml -i stages/stage`
-- Prod: `ansible-playbook deploy.yml -i stages/prod`
+- Stage: `ansible-playbook deploy.yml -i stages/stage.yml`
+- Prod: `ansible-playbook deploy.yml -i stages/prod.yml`
 
 
 ## Style Guide
