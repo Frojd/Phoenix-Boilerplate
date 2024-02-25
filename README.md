@@ -5,9 +5,10 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 
 ## Features
 
-- Built in compile target support for Ubuntu 20.04
-- Elixir 1.13
-- Phoenix 1.6
+- Built in compile target support for Ubuntu 22.04
+- Elixir 1.16
+- Phoenix 1.7
+- OTP 25
 - Auto scaffolding (with `phx.new`)
 - Dependencies and db migrations are automatically run when starting/restarting docker
 
@@ -111,6 +112,7 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 8. Start phoenix
     ```
     cd src
+    mv local.tool-versions .tool-versions
     asdf install
     source env.local.sh
     mix deps.get
@@ -139,8 +141,8 @@ This is a Phoenix/Elixir boilerplate that includes a auto-setup, docker support 
 
 #### Deploy application
 
-- Stage: `ansible-playbook deploy.yml -i stages/stage`
-- Prod: `ansible-playbook deploy.yml -i stages/prod`
+- Stage: `ansible-playbook deploy.yml -i stages/stage.yml`
+- Prod: `ansible-playbook deploy.yml -i stages/prod.yml`
 
 
 ## Style Guide

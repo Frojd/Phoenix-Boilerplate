@@ -16,7 +16,7 @@ scaffold_project() {
     SCAFFOLD_APP_PC_NAME=$(echo $SCAFFOLD_APP_NAME | sed -r 's/(^|_)([a-z])/\U\2/g')
 
     echo "Generating app"
-    mix phx.new $SCAFFOLD_APP_NAME --no-assets
+    mix phx.new $SCAFFOLD_APP_NAME --no-assets --no-install --adapter=bandit
 
     echo "Move app to src"
     cp -Rp ./$SCAFFOLD_APP_NAME/. .
@@ -36,10 +36,9 @@ scaffold_project() {
     sed -i -e "s/hostname:.*/hostname: System.get_env(\"DATABASE_HOST\"),/" config/test.exs
     sed -i '/hostname:.*/a\ \ port: System.get_env("DATABASE_PORT") |> String.to_integer,' config/test.exs
 
-    echo "Installing distillery"
-    sed -i '/plug_cowboy/c \ \ \ \ \ \ {:plug_cowboy,\ "~> 2.0"},' mix.exs
-    sed -i '/plug_cowboy/a \ \ \ \ \ \ {:distillery,\ "~> 2.0"},' mix.exs
-    sed -i '/distillery/a \ \ \ \ \ \ {:toml,\ "~> 0.3"}' mix.exs
+    echo "Adding release"
+    sed -i '/bandit/c \ \ \ \ \ \ {:bandit,\ "~> 1.2"},' mix.exs
+    sed -i '/bandit/a \ \ \ \ \ \ {:toml,\ "~> 0.7"},' mix.exs
 
     rm config/prod.exs
     cp _templates/config/prod.exs config/prod.exs
@@ -48,24 +47,17 @@ scaffold_project() {
 
     mix deps.get
     mix release.init
+    cp _templates/lib/release.ex lib/release.ex
 
-    echo "Copy commands"
-    mkdir -p rel/commands
-    cp _templates/rel/commands/migrate.sh rel/commands/migrate.sh
-    sed -i -e "s/ExampleApp/$SCAFFOLD_APP_PC_NAME/" rel/commands/migrate.sh
-
-    echo "Add commands to rel/config.exs"
-    echo "$(cat _templates/rel/config.part.exs)" >> rel/config.exs
-    sed -i -e "s/example_app/$SCAFFOLD_APP_NAME/" rel/config.exs
-    sed -i -e "s/ExampleApp/$SCAFFOLD_APP_PC_NAME/" rel/config.exs
-
-    echo "Configure toml"
-    sed -i '/environment\ :prod/a \ \ set config_providers: [ {Toml.Provider, [path: "${RELEASE_ROOT_DIR}/config.toml"]} ]' rel/config.exs
-    sed -i '/environment\ :prod/a \ \ set overlays: [ {:copy, "config/defaults.toml", "config.toml"} ]' rel/config.exs
+    sed -i '/deps()/c \ \ \ \ \ \ deps: deps(),' mix.exs
+    sed -i '/deps()/a \ \ \ \ \ \ releases: [ realtime_api: [ include_executables_for: [:unix], applications: [runtime_tools: :permanent], steps: [:assemble, :tar], config_providers: [ {Toml.Provider, path: "config.toml"} ] ] ],' mix.exs
 
     cp _templates/config/defaults.toml config/defaults.toml
     sed -i -e "s/example_app/$SCAFFOLD_APP_NAME/" config/defaults.toml
     sed -i -e "s/ExampleApp/$SCAFFOLD_APP_PC_NAME/" config/defaults.toml
+
+    echo "Apply code formatting"
+    mix format
 }
 
 if [ ! -f ./mix.exs ]; then

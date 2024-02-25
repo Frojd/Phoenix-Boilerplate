@@ -35,13 +35,34 @@ references:
       keys:
         - v2-repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
 
+executors:
+  base:
+    docker:
+      - image: cimg/base:stable-22.04
+  elixir_with_postgres:
+    docker:
+      - image: ghcr.io/frojd/dockerimages/elixir-ubuntu-22-04:1.16
+        environment:
+          DATABASE_USER: postgres
+          DATABASE_PASSWORD: postgres
+          DATABASE_NAME: postgres
+          DATABASE_TEST_NAME: circle_test
+          DATABASE_HOST: localhost
+          DATABASE_PORT: 5432
+      - image: postgis/postgis:10-2.5-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+  python:
+    docker:
+      - image: cimg/python:3.8.13
+
 jobs:
   checkout_code:
     <<: *defaults
-    docker:
-      - image: frojd/elixir-ubuntu-20-04:1.13
-      - image: postgis/postgis:12-2.5-alpine
-      - image: circleci/python:3.8
+    executor: base
     steps:
       - checkout
       - save_cache:
@@ -50,21 +71,7 @@ jobs:
             - .
   phoenix:
     <<: *defaults
-    docker:
-      - image: frojd/elixir-ubuntu-20-04:1.13
-        environment:
-          DATABASE_USER: postgres
-          DATABASE_PASSWORD: postgres
-          DATABASE_NAME: postgres
-          DATABASE_TEST_NAME: postgres_test
-          DATABASE_HOST: localhost
-          REDIS_HOST: localhost
-      - image: postgis/postgis:12-2.5-alpine
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-
+    executor: elixir_with_postgres
     steps:
       - *attach_workspace
       - *restore_repo
@@ -107,8 +114,7 @@ jobs:
 
   deploy:
     <<: *defaults
-    docker:
-      - image: circleci/python:3.8
+    executor: python
     steps:
       - *attach_workspace
       - *restore_repo
@@ -118,9 +124,11 @@ jobs:
             - v2-deploy-{{ checksum "deploy/requirements.txt" }}
       - run:
           command: |
+            sudo apt-get update && sudo apt-get install -y rsync
+      - run:
+          command: |
             cd deploy
             python3 -m venv venv
-            sudo apt-get -y -qq install rsync
             . venv/bin/activate
             pip install -r requirements.txt
             ansible-galaxy install -r requirements.yml
@@ -135,11 +143,11 @@ jobs:
             . venv/bin/activate
 
             if [ "${CIRCLE_BRANCH}" == "develop" ]; then
-              ansible-playbook deploy.yml -i stages/stage
+              ansible-playbook deploy.yml -i stages/stage.yml
             fi
 
             if [ "${CIRCLE_TAG}" ]; then
-              ansible-playbook deploy.yml -i stages/prod
+              ansible-playbook deploy.yml -i stages/prod.yml
             fi
 
 workflows:
